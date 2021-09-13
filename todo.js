@@ -86,7 +86,6 @@ completed.onclick = () => {
 
 clear.onclick = () => {
   const deleteBtn = document.querySelectorAll('.deleteBtn');
-  console.log(deleteBtn.length);
   deleteBtn.forEach((el) => el.parentElement.remove());
 }
 
