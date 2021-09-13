@@ -25,8 +25,7 @@ const filterElements = function(val1, val2){
   for (let i = 0; i < li.length; i++) {
     if (li[i].className === 'checked') {
       li[i].style.display = val1;
-    }
-    else {
+    } else {
       li[i].style.display = val2;
     }
   }
@@ -62,8 +61,7 @@ ul.addEventListener('click', function(ev) {
   }
   if (completed.className === 'filter selected') {
     filterElements('block', 'none');
-  }
-  else if (inProgress.className === 'filter selected') {
+  } else if (inProgress.className === 'filter selected') {
     filterElements('none', 'block');
   } 
 });
