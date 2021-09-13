@@ -10,6 +10,12 @@ const createElement = () => {
   li.append(text);
   li.insertAdjacentHTML('beforeend', '<button class="deleteBtn">❌</button>');
 
+  if (completed.classList.contains('selected')) {
+    li.style.display = 'none';
+  } else {
+    li.style.display = 'block';
+  }
+
   if (input.value.trim().length > 0) {
     ul.append(li);
     input.value = '';
@@ -19,11 +25,6 @@ const createElement = () => {
 
 const updateElements = () => {
   const li = document.querySelectorAll('li');
-
-  if (!ul.hasChildNodes()) {
-    createElement();
-  }
-
   li.forEach((el) => el.style.display = 'block');
 }
 
