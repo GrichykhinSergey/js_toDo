@@ -13,10 +13,10 @@ const updateElements = function() {
   }
 }
 
-const updateColors = function(all_val, completed_val, inProgress_val) {
-  allOptions.style.backgroundColor = all_val;
-  inProgress.style.backgroundColor = completed_val;
-  completed.style.backgroundColor = inProgress_val;
+const updateColors = function(allValue, completedValue, inProgressValue) {
+  allOptions.style.backgroundColor = allValue;
+  inProgress.style.backgroundColor = completedValue;
+  completed.style.backgroundColor = inProgressValue;
 }
 
 const filterElements = function(val1, val2){
@@ -25,7 +25,8 @@ const filterElements = function(val1, val2){
   for (let i = 0; i < li.length; i++) {
     if (li[i].className === 'checked') {
       li[i].style.display = val1;
-    } else {
+    }
+    else {
       li[i].style.display = val2;
     }
   }
@@ -61,7 +62,8 @@ ul.addEventListener('click', function(ev) {
   }
   if (completed.className === 'filter selected') {
     filterElements('block', 'none');
-  } else if (inProgress.className === 'filter selected') {
+  }
+  else if (inProgress.className === 'filter selected') {
     filterElements('none', 'block');
   } 
 });
