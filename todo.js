@@ -24,28 +24,26 @@ const updateClassValue = (elem1, elem2, elem3) => {
 }
 
 const updateElements = () => {
-  const li = document.getElementsByTagName('li');
+  const li = document.querySelectorAll('li');
 
   if (!ul.hasChildNodes()) {
     createElement();
   }
 
-  for (let i = 0; i < li.length; i++) {
-    li[i].style.display = 'block';
-  }
+  li.forEach((el) => el.style.display = 'block');
 }
 
 const filterElements = (val1, val2) => {
-  const li = document.getElementsByTagName('li');
+  const li = document.querySelectorAll('li');
 
-  for (let i = 0; i < li.length; i++) {
-    if (li[i].className === 'checked') {
-      li[i].style.display = val1;
+  li.forEach((el) => {
+    if (el.className === 'checked') {
+      el.style.display = val1;
     }
     else {
-      li[i].style.display = val2;
+      el.style.display = val2;
     }
-  }
+  });
 }
 
 const deleteElement = () => {
@@ -64,10 +62,10 @@ ul.addEventListener('click', (ev) => {
   if (ev.target.tagName === 'LI') {
     ev.target.classList.toggle('checked');
   }
-  if (completed.className === 'filter selected') {
+  if (completed.classList.contains('selected')) {
     filterElements('block', 'none');
   }
-  else if (inProgress.className === 'filter selected') {
+  else if (inProgress.classList.contains('selected')) {
     filterElements('none', 'block');
   } 
 });
