@@ -14,13 +14,7 @@ const createElement = () => {
     ul.append(li);
     input.value = '';
   }
-}
-
-const updateClassValue = (elem1, elem2, elem3) => {
-  elem1.classList.add('selected');
-  elem2.classList.remove('selected');
-  elem3.classList.remove('selected');
-  
+  deleteHandler();
 }
 
 const updateElements = () => {
@@ -33,29 +27,26 @@ const updateElements = () => {
   li.forEach((el) => el.style.display = 'block');
 }
 
-const filterElements = (val1, val2) => {
+const filterElements = (isCompleted) => {
   const li = document.querySelectorAll('li');
-
+  
   li.forEach((el) => {
-    if (el.className === 'checked') {
-      el.style.display = val1;
+    if (isCompleted) {
+      el.style.display = el.className === 'checked' ? 'block' : 'none';
     }
     else {
-      el.style.display = val2;
+      el.style.display = el.className !== 'checked' ? 'block' : 'none';;
     }
   });
 }
 
-const deleteElement = () => {
+const deleteHandler = () => {
   const deleteBtn = document.querySelectorAll('.deleteBtn');
   deleteBtn.forEach((el) => el.onclick = () => el.parentElement.remove());
 }
 
-deleteElement();
-
 add.onclick = () => {
   createElement();
-  deleteElement();
 }
 
 ul.addEventListener('click', (ev) => {
@@ -63,26 +54,33 @@ ul.addEventListener('click', (ev) => {
     ev.target.classList.toggle('checked');
   }
   if (completed.classList.contains('selected')) {
-    filterElements('block', 'none');
+    filterElements(true);
   }
   else if (inProgress.classList.contains('selected')) {
-    filterElements('none', 'block');
+    filterElements(false);
   } 
 });
 
 all.onclick = () => {
   updateElements();
-  updateClassValue(allOptions, inProgress, completed);
+  allOptions.classList.add('selected');
+  completed.classList.remove('selected');
+  inProgress.classList.remove('selected');
 }
 
 progress.onclick = () => {
-  filterElements('none', 'block');
-  updateClassValue(inProgress, allOptions, completed);
+  filterElements(false);
+  inProgress.classList.add('selected');
+  completed.classList.remove('selected');
+  allOptions.classList.remove('selected');
+  
 }
 
 completed.onclick = () => {
-  filterElements('block', 'none');
-  updateClassValue(completed, allOptions, inProgress);
+  filterElements(true);
+  completed.classList.add('selected');
+  allOptions.classList.remove('selected');
+  inProgress.classList.remove('selected');
 }
 
 clear.onclick = () => {
@@ -94,6 +92,5 @@ clear.onclick = () => {
 document.addEventListener('keydown', (event) => {
   if (event.code == 'Enter') {
     createElement();
-    deleteElement();
   }
 });
