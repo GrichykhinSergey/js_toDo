@@ -1,25 +1,41 @@
-const allOptions = document.getElementById('all');
-const inProgress = document.getElementById('progress');
-const completed = document.getElementById('completed');
-const input = document.getElementById('myInput');
-const ul = document.getElementById('myUL');
-const deleteBtn = document.getElementsByClassName('delete-btn');
+const allOptions = document.querySelector('#all');
+const inProgress = document.querySelector('#progress');
+const completed = document.querySelector('#completed');
+const input = document.querySelector('#input');
+const ul = document.querySelector('#toDos');
 
-const updateElements = function() {
+const createElement = () => {
+  const li = document.createElement('li');
+  const text = document.createTextNode(input.value);
+  li.append(text);
+  li.insertAdjacentHTML('beforeend', '<button class="deleteBtn">❌</button>');
+
+  if (input.value.trim().length > 0) {
+    ul.append(li);
+    input.value = '';
+  }
+}
+
+const updateClassValue = (elem1, elem2, elem3) => {
+  elem1.classList.add('selected');
+  elem2.classList.remove('selected');
+  elem3.classList.remove('selected');
+  
+}
+
+const updateElements = () => {
   const li = document.getElementsByTagName('li');
+
+  if (!ul.hasChildNodes()) {
+    createElement();
+  }
 
   for (let i = 0; i < li.length; i++) {
     li[i].style.display = 'block';
   }
 }
 
-const updateColors = function(allValue, completedValue, inProgressValue) {
-  allOptions.style.backgroundColor = allValue;
-  inProgress.style.backgroundColor = completedValue;
-  completed.style.backgroundColor = inProgressValue;
-}
-
-const filterElements = function(val1, val2){
+const filterElements = (val1, val2) => {
   const li = document.getElementsByTagName('li');
 
   for (let i = 0; i < li.length; i++) {
@@ -32,31 +48,19 @@ const filterElements = function(val1, val2){
   }
 }
 
-const deleteElement = function() {
-  for (let i = 0; i < deleteBtn.length; i++) {
-    deleteBtn[i].onclick = function() {
-      const li_el = this.parentElement;
-      li_el.remove();
-    }
-  }
+const deleteElement = () => {
+  const deleteBtn = document.querySelectorAll('.deleteBtn');
+  deleteBtn.forEach((el) => el.onclick = () => el.parentElement.remove());
 }
 
 deleteElement();
 
-add.onclick = function() {
-  const li_new = document.createElement('li');
-  const text = document.createTextNode(input.value);
-  li_new.append(text);
-  li_new.insertAdjacentHTML('beforeend', '<button class="delete-btn">❌</button>');
-
-  if (input.value.trim().length > 0) {
-    document.getElementById('myUL').append(li_new);
-    input.value = '';
-  }
+add.onclick = () => {
+  createElement();
   deleteElement();
 }
 
-ul.addEventListener('click', function(ev) {
+ul.addEventListener('click', (ev) => {
   if (ev.target.tagName === 'LI') {
     ev.target.classList.toggle('checked');
   }
@@ -68,29 +72,30 @@ ul.addEventListener('click', function(ev) {
   } 
 });
 
-all.onclick = function() {
-  updateColors('greenyellow', '#eee', '#eee');
+all.onclick = () => {
   updateElements();
-  inProgress.className = 'filter';
-  completed.className = 'filter';
+  updateClassValue(allOptions, inProgress, completed);
 }
 
-progress.onclick = function() {
-  updateColors('#eee', 'greenyellow', '#eee');
+progress.onclick = () => {
   filterElements('none', 'block');
-  inProgress.className = 'filter selected';
-  completed.className = 'filter';
+  updateClassValue(inProgress, allOptions, completed);
 }
 
-completed.onclick = function() {
-  updateColors('#eee', '#eee', 'greenyellow');
+completed.onclick = () => {
   filterElements('block', 'none');
-  completed.className = 'filter selected';
-  inProgress.className = 'filter';
+  updateClassValue(completed, allOptions, inProgress);
 }
 
-clear.onclick = function() {
-  while (deleteBtn.length > 0) {
-    deleteBtn[0].parentElement.remove();
-  }
+clear.onclick = () => {
+  const deleteBtn = document.querySelectorAll('.deleteBtn');
+  console.log(deleteBtn.length);
+  deleteBtn.forEach((el) => el.parentElement.remove());
 }
+
+document.addEventListener('keydown', (event) => {
+  if (event.code == 'Enter') {
+    createElement();
+    deleteElement();
+  }
+});
