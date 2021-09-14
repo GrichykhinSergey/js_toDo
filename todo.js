@@ -4,6 +4,17 @@ const completed = document.querySelector('#completed');
 const input = document.querySelector('#input');
 const ul = document.querySelector('#toDos');
 
+const checkStringLength = () => {
+  if (input.value.length > 100) {
+    input.value = '';
+    input.setAttribute('placeholder', 'string length must not be more than 100 symbols');
+    return false;
+  }
+  
+  input.setAttribute('placeholder', '');
+  return true;
+}
+
 const createElement = () => {
   const li = document.createElement('li');
   const text = document.createTextNode(input.value);
@@ -47,7 +58,9 @@ const deleteHandler = () => {
 }
 
 add.onclick = () => {
-  createElement();
+  if (checkStringLength()) {
+    createElement();
+  }
 }
 
 ul.addEventListener('click', (ev) => {
@@ -91,6 +104,8 @@ clear.onclick = () => {
 
 document.addEventListener('keydown', (event) => {
   if (event.code == 'Enter') {
-    createElement();
+    if (checkStringLength()) {
+      createElement();
+    }
   }
 });
