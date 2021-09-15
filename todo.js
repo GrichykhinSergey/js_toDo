@@ -45,9 +45,8 @@ const filterElements = (isCompleted) => {
   li.forEach((el) => {
     if (isCompleted) {
       el.style.display = el.className === 'checked' ? 'block' : 'none';
-    }
-    else {
-      el.style.display = el.className !== 'checked' ? 'block' : 'none';;
+    } else {
+      el.style.display = el.className !== 'checked' ? 'block' : 'none';
     }
   });
 }
@@ -69,8 +68,7 @@ ul.addEventListener('click', (ev) => {
   }
   if (completed.classList.contains('selected')) {
     filterElements(true);
-  }
-  else if (inProgress.classList.contains('selected')) {
+  } else if (inProgress.classList.contains('selected')) {
     filterElements(false);
   } 
 });
